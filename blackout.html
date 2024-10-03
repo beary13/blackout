@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLACKOUT Animation</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #blackout {
+      font-size: 5rem;
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      color: white;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+
+<div id="blackout">BLACKOUT @ the Track Shack</div>
+
+<script>
+  const blackout = document.getElementById('blackout');
+  let x = (window.innerWidth - blackout.offsetWidth) / 2; // Start in the center horizontally
+  let y = (window.innerHeight - blackout.offsetHeight) / 2; // Start in the center vertically
+  let dx = 0.5; // Slower movement speed
+  let dy = 0.5;
+  let colorChangeInterval = 0; // Counter to control the slow color change
+
+  function randomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  function animate() {
+    x += dx * (Math.random() * 2 - 1); // Slower movement direction changes
+    y += dy * (Math.random() * 2 - 1);
+
+    if (x + blackout.offsetWidth > window.innerWidth || x < 0) {
+      dx = -dx;
+    }
+    if (y + blackout.offsetHeight > window.innerHeight || y < 0) {
+      dy = -dy;
+    }
+
+    blackout.style.left = x + 'px';
+    blackout.style.top = y + 'px';
+
+    // Change color every 100 frames (slow down the color change)
+    colorChangeInterval++;
+    if (colorChangeInterval > 100) {
+      blackout.style.color = randomColor();
+      colorChangeInterval = 0;
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+</body>
+</html>
